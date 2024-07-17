@@ -6,7 +6,6 @@ from .inverted_pendulum import InvertedPendulum
 from .kinematic_single_track_car import KSCar
 from .single_track_car import STCar
 from .segway import Segway
-from .f16 import F16
 
 __all__ = [
     "ControlAffineSystem",
@@ -14,7 +13,6 @@ __all__ = [
     "Quad2D",
     "Quad3D",
     "NeuralLander",
-    "F16",
     "KSCar",
     "STCar",
     "Segway",
