@@ -19,7 +19,7 @@ from neural_clbf.controllers.generic_controller import GenericController
 from neural_clbf.experiments.common.episodic_datamodule import EpisodicDataModule
 
 
-class NeuralCLBFController(GenericController, pl.LightningModule):
+class NeuralCLBFController(pl.LightningModule, GenericController):
     """
     A neural rCLBF controller
     """
@@ -839,7 +839,7 @@ class NeuralCLBFController(GenericController, pl.LightningModule):
         # do parameter sweeps
         self.clbf_relaxation_penalty = old_relaxation_penalty
 
-    # @pl.core.decorators.auto_move_data
+    @pl.core.decorators.auto_move_data
     def simulator_fn(
         self,
         x_init: torch.Tensor,
