@@ -1,5 +1,6 @@
 from copy import copy
 from typing import Tuple
+from argparse import ArgumentParser
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -20,9 +21,7 @@ if __name__ == "__main__":
     )
 
 
-def doMain():
-    checkpoint_file = "saved_models/good/kscar/e6f766a_v1.ckpt"
-
+def doMain(args):
     controller_period = 0.01
     simulation_dt = 0.001
 
@@ -34,7 +33,7 @@ def doMain():
         "omega_ref": 0.0,
     }
     dynamics_model = KSCar(
-        nominal_params, dt=simulation_dt, controller_dt=controller_period
+        nominal_params, dt=simulation_dt, controller_dt=controller_period, seed=args.seed
     )
 
     # Initialize the DataModule
@@ -68,7 +67,7 @@ def doMain():
 
     # Initialize the controller
     clbf_controller = NeuralCLBFController.load_from_checkpoint(
-        checkpoint_file,
+        args.checkpoint_file,
         map_location=torch.device("cpu"),
         dynamics_model=dynamics_model,
         scenarios=scenarios,
@@ -86,6 +85,8 @@ def doMain():
         num_init_epochs=11,
         optimizer_alternate_epochs=1,
         epochs_per_episode=200,
+        rasm_p = args.rasm_p,
+        rasm_succ_n = args.rasm_succ_n,
     )
 
     single_rollout_s_path(clbf_controller)
@@ -681,4 +682,10 @@ def single_rollout_s_path(
 
 
 if __name__ == "__main__":
-    doMain()
+    parser = ArgumentParser()
+    parser.add_argument('--seed', type=int, default=0, help='Random seed for reproducibility')
+    parser.add_argument('--rasm_p', type=float, default=0.7, help='RASM Probability')
+    parser.add_argument('--rasm_succ_n', type=int, default=3, help='RASM number of considered successors')
+    parser.add_argument('checkpoint_file', type=str, help='Path to the checkpoint file')
+    args = parser.parse_args()
+    doMain(args)
