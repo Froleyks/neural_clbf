@@ -71,7 +71,7 @@ def main(args):
         "omega_ref": 0.0,
     }
     dynamics_model = KSCar(
-        nominal_params, dt=simulation_dt, controller_dt=controller_period
+        nominal_params, dt=simulation_dt, controller_dt=controller_period, seed=args.seed
     )
 
     # Initialize the DataModule
@@ -155,6 +155,7 @@ def main(args):
 if __name__ == "__main__":
     parser = ArgumentParser()
     parser = pl.Trainer.add_argparse_args(parser)
+    parser.add_argument('--seed', type=int, default=0, help='Random seed for reproducibility')
     args = parser.parse_args()
 
     main(args)

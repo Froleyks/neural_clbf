@@ -60,6 +60,7 @@ class KSCar(ControlAffineSystem):
         nominal_params: Scenario,
         dt: float = 0.01,
         controller_dt: Optional[float] = None,
+        seed: int = 0,
     ):
         """
         Initialize the car model.
@@ -73,6 +74,9 @@ class KSCar(ControlAffineSystem):
         raises:
             ValueError if nominal_params are not valid for this system
         """
+        if seed:
+            torch.manual_seed(seed)
+        print("Seed:", seed)
         # Get car parameters
         self.car_params = parameters_vehicle2()
 
