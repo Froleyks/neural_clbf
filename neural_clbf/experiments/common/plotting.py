@@ -65,7 +65,7 @@ def plot_CLBF(
     # aren't all defined over the entire state space.
     relax_grid = float("nan") + torch.zeros(n_grid, n_grid).type_as(x_vals)
     lin_descent_loss_grid = float("nan") + torch.zeros(n_grid, n_grid).type_as(x_vals)
-    sim_descent_loss_grid = float("nan") + torch.zeros(n_grid, n_grid).type_as(x_vals)
+    #sim_descent_loss_grid = float("nan") + torch.zeros(n_grid, n_grid).type_as(x_vals)
     safe_loss_grid = float("nan") + torch.zeros(n_grid, n_grid).type_as(x_vals)
     unsafe_loss_grid = float("nan") + torch.zeros(n_grid, n_grid).type_as(x_vals)
     lower_bound_loss_grid = float("nan") + torch.zeros(n_grid, n_grid).type_as(x_vals)
@@ -107,9 +107,9 @@ def plot_CLBF(
                 x, goal_mask, safe_mask, unsafe_mask, dist_to_goal
             )
             lin_descent_loss_grid[j, i] = descent_losses[0][1]
-            sim_descent_loss_grid[j, i] = descent_losses[1][1]
+            # sim_descent_loss_grid[j, i] = descent_losses[1][1]
             safe_loss_grid[j, i] = boundary_losses[1][1]
-            unsafe_loss_grid[j, i] = boundary_losses[2][1]
+            # unsafe_loss_grid[j, i] = boundary_losses[2][1]
             # lower_bound_loss_grid[j, i] = boundary_losses[1][1]
 
             # Get the QP relaxation for all points where V < safe_level
@@ -216,12 +216,12 @@ def plot_CLBF(
     plt.colorbar(contours, ax=axs, orientation="horizontal")
     axs.set_title("Lin Descent Loss")
 
-    axs = axes[1, 1]
-    contours = axs.contourf(
-        x_vals.cpu(), y_vals.cpu(), sim_descent_loss_grid.cpu(), cmap="magma", levels=20
-    )
-    plt.colorbar(contours, ax=axs, orientation="horizontal")
-    axs.set_title("Sim Descent Loss")
+    #axs = axes[1, 1]
+    #contours = axs.contourf(
+    #    x_vals.cpu(), y_vals.cpu(), sim_descent_loss_grid.cpu(), cmap="magma", levels=20
+    #)
+    ##plt.colorbar(contours, ax=axs, orientation="horizontal")
+    #axs.set_title("Sim Descent Loss")
 
     axs = axes[2, 0]
     contours = axs.contourf(

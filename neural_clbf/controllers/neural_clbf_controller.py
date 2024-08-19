@@ -647,6 +647,7 @@ class NeuralCLBFController(pl.LightningModule, GenericController):
         deriv_loss = F.relu(V_mean - V + eps)
         deriv_loss = (~goal_mask)*(deriv_loss)
         deriv_loss = deriv_loss.sum() / (~goal_mask).sum()
+        # loss.append(("CLBF descent accuracy (simulated)", deriv_loss))
         loss.append(("RASM", deriv_loss))
         return loss
 
